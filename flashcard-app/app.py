@@ -95,6 +95,30 @@ def addflash():
         print(f"\nYou have typed: \"{text}\", which translates to: \"{translation}\" in {language}")
         print("We have added the flashcard to your deck!")
     getOption()
+
+def removeflash():
+    print("What word would you like to remove from your flashcard set?")
+    removed_word = input("Enter word here: ").lower()
+    print("What language was this flashcard in?")
+    lang = input("Enter language here: ").lower()
+    while lang not in languages.keys():
+        lang = input("Invalid entry. Please enter a valid language:")
+    if lang not in my_flashcards.keys():
+        print("You don't have any flashcards in this language yet!")
+    else:
+        lang_set = my_flashcards[lang]
+        found_flash = False
+        for eng in lang_set:
+            if eng.get_english().lower() == removed_word:
+                lang_set.remove(eng)
+                found_flash = True
+                print("Flashcard deleted")
+                break
+        if not found_flash:
+            print("The word was not in your flashcard set.")
+    getOption()
+    
+    
     
 #to see the flashcards currently in the language set:
 def showflash():
@@ -106,12 +130,16 @@ def showflash():
     #no flashcards in our flashcard set for this language:
     if language not in my_flashcards:
         print("You do not have any flashcards in this language. Add some and come back later! \n")
-    #there are flashcards in this language set (get all of them):
-    entry = my_flashcards[language]
-    #print out each flaschard in there
-    print("\nYour flashcards: ")
-    for fc in entry:
-        print(fc) #fc is flashcard object --> overrides str to print eng and translation
+    else:
+        #there are flashcards in this language set (get all of them):
+        entry = my_flashcards[language]
+        if len(entry)== 0:
+            print("You don't have any flashcards!")
+        else:
+            #print out each flaschard in there
+            print("\nYour flashcards: ")
+            for fc in entry:
+                print(fc) #fc is flashcard object --> overrides str to print eng and translation
     
     getOption()
     
